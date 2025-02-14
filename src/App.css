@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+h1,
+h2,
+h3,
+h4,
+h5,
+small,
+p,
+i,
+li,
+ul,
+button,
+input {
+  font-family: "Montserrat", serif;
+}
+
+.text-white{
+    color: white;
+}
+
+.hero-text{
+    font-weight: 600;
+}
+
+.hero-place{
+    background-image: url("./Asset/stocks/hero.JPG");
+    background-size: cover;
+    background-attachment: fixed;
+}
