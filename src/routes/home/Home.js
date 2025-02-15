@@ -1,8 +1,52 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/Navbar'
 import HomeIcone from "../../Asset/stocks/home.png"
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import { createClient } from 'contentful';
 
 const Home = () => {
+  const [roomGallery, setRoomGallery] = useState([]);
+  const clientsRoomImages = createClient({
+    space: "64wwqieqnr1q",
+    accessToken: "XIlTYgvQYexhNDNPAvKX_U92Jk7F6hM0FV2ic3898XM",
+  });
+
+  useEffect(() => {
+    const getAllEntries = async () => {
+      try {
+        const entries = await clientsRoomImages.getEntries({
+          content_type: "roomGallery", // Replace with your actual content type ID
+        });
+        setRoomGallery(entries.items);
+        // console.log(entries.items);
+      } catch (error) {
+        console.error("Error fetching entries:", error);
+      }
+    };
+    getAllEntries();
+  }, [clientsRoomImages]);
+
+
+  const responsive = {
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 4
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
+  };
   return (
     <div>
       <Navbar />
@@ -133,7 +177,41 @@ const Home = () => {
                 <div>
                   <p className='lead fw-bold text-white'> <i className="bi bi-patch-check-fill "></i> Quick View of Our Rooms</p>
                 </div>
-                <div></div>
+                <div>
+                  <Carousel
+                    // swipeable={false}
+                    draggable={true}
+                    // showDots={true}
+                    responsive={responsive}
+                    infinite={true}
+                    autoPlay={true}
+                    autoPlaySpeed={3000}
+                    keyBoardControl={true}
+                    customTransition="all .5"
+                    transitionDuration={2000}
+                    containerClass="carousel-container"
+                    // removeArrowOnDeviceType={["tablet", "mobile"]}
+                    dotListClass="custom-dot-list-style"
+                    itemClass="carousel-item-padding-40-px"
+                  >
+
+                    {roomGallery.map((rooms) => (
+                      <div key={rooms.sys.id} className="grid-container">
+                        <div className='grid-item'>
+                          <img
+                            rel='preload'
+                            width="100%"
+                            loading="lazy"
+                            src={rooms.fields.roomGallery.fields.file.url}
+                            alt={rooms.fields.roomGallery.fields.title}
+                          />
+                        </div>
+                      </div>
+                    ))}
+
+
+                  </Carousel>
+                </div>
               </div>
             </div>
           </div>
