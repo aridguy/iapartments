@@ -4,6 +4,8 @@ import HomeIcone from "../../Asset/stocks/home.png"
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { createClient } from 'contentful';
+import Footer from '../../components/Footer';
+import Room from "../../Asset/stocks/home.png"
 
 const Home = () => {
   const [roomGallery, setRoomGallery] = useState([]);
@@ -19,14 +21,13 @@ const Home = () => {
           content_type: "roomGallery", // Replace with your actual content type ID
         });
         setRoomGallery(entries.items);
-        // console.log(entries.items);
+        // console.log("images are loaded here "+entries.items);
       } catch (error) {
         console.error("Error fetching entries:", error);
       }
     };
     getAllEntries();
   }, [clientsRoomImages]);
-
 
   const responsive = {
     superLargeDesktop: {
@@ -48,7 +49,7 @@ const Home = () => {
     }
   };
   return (
-    <div>
+    <main>
       <Navbar />
       { // this is hero section | section one 
         <section className='container-fluid pb-5 hero-place' >
@@ -179,35 +180,39 @@ const Home = () => {
                 </div>
                 <div>
                   <Carousel
-                    // swipeable={false}
                     draggable={true}
-                    // showDots={true}
                     responsive={responsive}
                     infinite={true}
                     autoPlay={true}
                     autoPlaySpeed={3000}
                     keyBoardControl={true}
-                    customTransition="all .5"
                     transitionDuration={2000}
-                    containerClass="carousel-container"
-                    // removeArrowOnDeviceType={["tablet", "mobile"]}
-                    dotListClass="custom-dot-list-style"
-                    itemClass="carousel-item-padding-40-px"
+                    containerClass="carousel-container"  // ✅ FIXED
+                    dotListClass="custom-dot-list-style"  // ✅ FIXED
+                    itemClass="carousel-item-padding-40-px"  // ✅ FIXED
                   >
 
-                    {roomGallery.map((rooms) => (
-                      <div key={rooms.sys.id} className="grid-container">
+                  {roomGallery && roomGallery.length > 0 ? (
+                    roomGallery.map((room) => (
+                      <div key={room.sys.id} className="grid-container">
                         <div className='grid-item'>
-                          <img
-                            rel='preload'
-                            width="100%"
-                            loading="lazy"
-                            src={rooms.fields.roomGallery.fields.file.url}
-                            alt={rooms.fields.roomGallery.fields.title}
-                          />
+                          {room.fields.roomGallery?.fields?.file?.url ? (
+                            <img
+                              width="100%"
+                              loading="lazy"
+                              src={room.fields.roomGallery.fields.file.url}
+                              alt={room.fields.roomGallery.fields.title || 'Room image'}
+                            />
+                          ) : (
+                            <p className='text-white lead'>No images available</p>
+                          )}
                         </div>
                       </div>
-                    ))}
+                    ))
+                  ) : (
+                    <p className='text-white lead'>No images available</p> // Show a message if empty
+                  )}
+                  
 
 
                   </Carousel>
@@ -217,7 +222,104 @@ const Home = () => {
           </div>
         </section>
       }
-    </div>
+
+      {
+        // getting to knw the customer section of the application
+        <section className='mb-5' style={{ background: "white" }}>
+          <div className="container text-black">
+            <div className="row mb-5">
+              <div className='col-md-12'>
+                <p className='lead fw-bold text-center pt-5'>Our rental matchmaker does the heavy lifting</p>
+              </div>
+            </div>
+            <div className='row '>
+              <div className='col-md-4' style={{ borderLeft: "1px solid green" }}>
+                <i className="bi bi-patch-check-fill text-success" style={{ fontSize: "3em", }}></i>
+                <div className='mt-3'>
+                  <h2 className='lead fw-bolder'>Getting to know you</h2>
+                  <p className=''>You’ll answer a few simple questions so we understand what you are really looking for in your next home.</p>
+                </div>
+              </div>
+              <div className='col-md-4' style={{ borderLeft: "1px solid green" }}>
+                <i className="bi bi-patch-check-fill text-success" style={{ fontSize: "3em", }}></i>
+                <div className='mt-3'>
+                  <h2 className='lead fw-bolder'>Guiding you to savings</h2>
+                  <p className=''>Tallying up the value of promotional offers can be confusing. That’s why we show transparent pricing for any apartment with an offered concession.</p>
+                </div>
+              </div>
+              <div className='col-md-4' style={{ borderLeft: "1px solid green" }}>
+                <i className="bi bi-patch-check-fill text-success" style={{ fontSize: "3em", }}></i>
+                <div className='mt-3'>
+                  <h2 className='lead fw-bolder'>Curating top matches</h2>
+                  <p className=''>When you add an apartment to your short list, we will compare them and recommend the best properties for you.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      }
+
+      {
+        // just some catchy section
+
+      }
+
+      {
+        // room listings {all available rooms at i apartment services}
+        <section className='pt-3'>
+          <div className='container'>
+            <div className="row">
+              <h2 className='text-success'>Feature Rooms!</h2>
+            </div>
+            <div className='row'>
+              <div className='col-md-3'>
+                <div className="card" style={{ width: "18rem" }}>
+                  <img className="card-img-top" src={Room} alt="Card cap" />
+                  <div className="card-body">
+                    <h5 className="card-title">Card title</h5>
+                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="/" className="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+              <div className='col-md-3'>
+                <div className="card" style={{ width: "18rem" }}>
+                  <img className="card-img-top" src={Room} alt="Card cap" />
+                  <div className="card-body">
+                    <h5 className="card-title">Card title</h5>
+                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="/" className="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+              <div className='col-md-3'>
+                <div className="card" style={{ width: "18rem" }}>
+                  <img className="card-img-top" src={Room} alt="Card cap" />
+                  <div className="card-body">
+                    <h5 className="card-title">Card title</h5>
+                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="/" className="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+              <div className='col-md-3'>
+                <div className="card" style={{ width: "18rem" }}>
+                  <img className="card-img-top" src={Room} alt="Card cap" />
+                  <div className="card-body">
+                    <h5 className="card-title">Card title</h5>
+                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="/" className="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+      }
+
+      <Footer />
+    </main>
   )
 }
 

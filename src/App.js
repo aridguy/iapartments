@@ -4,6 +4,7 @@ import './App.css';
 import Home from './routes/home/Home';
 import Contact from './routes/contact/Contact';
 import NotFound from './notFound';
+import About from './routes/about/About';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
