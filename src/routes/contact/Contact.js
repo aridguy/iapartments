@@ -1,7 +1,46 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
 import Navbar from '../../components/Navbar'
+import Footer from "../../components/Footer";
 
 const Contact = () => {
+  const form = useRef();
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => {
+        setSuccess(false);
+      }, 5000); // Message disappears after 5 seconds
+
+      return () => clearTimeout(timer); // Cleanup timeout on unmount
+    }
+  }, [success]);
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    setLoading(true); // Show loader when form submission starts
+
+    emailjs
+      .sendForm(
+        "service_0ref7em", // Replace with your Service ID
+        "template_iteb228", // Replace with your Template ID
+        form.current,
+        "SFnvl1enJnX0YYdDM" // Replace with your Public Key
+      )
+      .then(
+        (result) => {
+          console.log("Success:", result.text);
+          setSuccess(true);
+          setLoading(false); // Hide loader after successful submission
+          form.current.reset(); // Reset the form
+          setTimeout(() => setSuccess(false), 5000); // Hide success message after 5 seconds
+        },
+        (error) => {
+          console.log("Error:", error.text);
+        }
+      );
+  };
   return (
     <div>
       <Navbar />
@@ -26,7 +65,7 @@ const Contact = () => {
           <div className="container">
             <div className="row">
               <div className='col-md-8'>
-                <h1>contact page</h1>
+                <h1 className="text-black fw-bolder">Contact Us</h1>
                 <p className='lead'>
                   Our focus on luxury and comfort, combined with affordability, ensures an incredible stay. We work as a dedicated team to provide
                   outstanding service from start to finish. Count on us to be always here to help and make your experience exceptional.
@@ -49,8 +88,8 @@ const Contact = () => {
                           </div>
                           <div className="contact-info-text">
                             <h2>address</h2>
-                            <span>1215 Lorem Ipsum, Ch 176080 </span>
-                            <span>Chandigarh , INDIA</span>
+                            <span>Plot 23, Oshin Street, Off Billings Way,  </span>
+                            <span>Alausa Ikeja</span>
                           </div>
                         </div>
                       </div>
@@ -63,8 +102,8 @@ const Contact = () => {
                           </div>
                           <div className="contact-info-text">
                             <h2>E-mail</h2>
-                            <span>info@LoremIpsum.com</span>
-                            <span>yourmail@gmail.com</span>
+                            <span>info@iapartmentservices.com</span>
+                            <span>ronkedao@gmail.com</span>
                           </div>
                         </div>
                       </div>
@@ -77,22 +116,24 @@ const Contact = () => {
                           </div>
                           <div className="contact-info-text">
                             <h2>office time</h2>
-                            <span>Mon - Thu  9:00 am - 4.00 pm</span>
-                            <span>Thu - Mon  10.00 pm - 5.00 pm</span>
+                            <span className="">24/7</span>
+                            <span className="">24/7</span>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
+
                   <div className="row">
                     <div className="col-md-8">
-                      <div className="contact-page-form" method="post">
+                      <div className="contact-page-form">
                         <h2>Get in Touch</h2>
-                        <form action="contact-mail.php" method="post">
+                        {success && <p className="text-green-500">Message sent successfully!</p>}
+                        <form ref={form} onSubmit={sendEmail}>
                           <div className="row">
                             <div className="col-md-6 col-sm-6 col-xs-12">
                               <div className="single-input-field">
-                                <input type="text" placeholder="Your Name" name="name" />
+                                <input type="text" placeholder="Your Name" name="name" required />
                               </div>
                             </div>
                             <div className="col-md-6 col-sm-6 col-xs-12">
@@ -116,7 +157,10 @@ const Contact = () => {
                               </div>
                             </div>
                             <div className="single-input-fieldsbtn">
-                              <input type="submit" value="Send Now" />
+                              <button type="submit" className="submit-btn" disabled={loading}>
+                                {loading ? "Sending..." : "Send Now"}
+                                {loading && <div className="spinner-border text-light spinner-sm" role="status"></div>}
+                              </button>
                             </div>
                           </div>
                         </form>
@@ -124,12 +168,14 @@ const Contact = () => {
                     </div>
                     <div className="col-md-4">
                       <div className="contact-page-map">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d109741.02912911311!2d76.69348873658222!3d30.73506264436677!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390fed0be66ec96b%3A0xa5ff67f9527319fe!2sChandigarh!5e0!3m2!1sen!2sin!4v1553497921355"
+                        <iframe
+                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9426.344598635427!2d3.3485566275918135!3d6.610882047887854!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b93cac5ddea01%3A0xd8ff74cb797c53bf!2s23%20Oshin%20St%2C%20Oregun%2C%20Ikeja%20101233%2C%20Lagos!5e0!3m2!1sen!2sng!4v1740153092887!5m2!1sen!2sng"
                           width="100%"
                           height="450"
-                          frameBorder="0"
-                          title='maps'
-                          allowFullScreen></iframe>
+                          allowFullScreen=""
+                          loading="lazy"
+                          title='I Apartment Services'
+                          referrerPolicy="no-referrer-when-downgrade"></iframe>
                       </div>
                     </div>
                   </div>
@@ -139,6 +185,7 @@ const Contact = () => {
           </div>
         </section>
       }
+      <Footer />
     </div>
   )
 }
