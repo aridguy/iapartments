@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+
+import emailjs from "@emailjs/browser";
 import Navbar from '../../components/Navbar'
 import HomeIcone from "../../Asset/stocks/home.png"
 import Carousel from "react-multi-carousel";
@@ -7,8 +9,73 @@ import { createClient } from 'contentful';
 import Footer from '../../components/Footer';
 import Room from "../../Asset/stocks/home.png"
 import Faq from '../../faq/Faq';
+import Swal from 'sweetalert2';
+import ApartmentFeatures from '../../components/ApartmentFeatures';
 
 const Home = () => {
+  const formRef = useRef(null);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    room_preference: "",
+    num_people: "",
+    budget: "",
+    message: "",
+  });
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const serviceID = "service_0ref7em";
+    const templateID = "template_1cwd22d";
+    const publicKey = "SFnvl1enJnX0YYdDM"; // Found in EmailJS Dashboard
+
+    emailjs.send(serviceID, templateID, formData, publicKey)
+      .then((response) => {
+        // console.log("Email sent successfully!", response);
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        });
+        Toast.fire({
+          icon: "success",
+          title: "Enquiries sent successfully!"
+        });
+        formRef.current.reset(); // ✅ Clears the form
+
+
+      })
+      .catch((error) => {
+        // console.error("Error sending email:", error);
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 7000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        });
+        Toast.fire({
+          icon: "error",
+          title: "Enquiries not sent, please try again!!"
+        });
+        formRef.current.reset(); // ✅ Clears the form
+      });
+  };
   const [roomGallery, setRoomGallery] = useState([]);
   const clientsRoomImages = createClient({
     space: "64wwqieqnr1q",
@@ -28,7 +95,7 @@ const Home = () => {
       }
     };
     getAllEntries();
-  }, [clientsRoomImages]);
+  }, []);
 
   const responsive = {
     superLargeDesktop: {
@@ -85,79 +152,46 @@ const Home = () => {
                   <div className='container'>
                     <div className='row'>
                       <div className='col-md-1'></div>
-                      <div className='col-md-10'>
-                        <form>
+                      <div className="col-md-10">
+                        <form onSubmit={handleSubmit} ref={formRef}>
                           <p>
-                            <input type='text' className='form-control' placeholder='your name' />
+                            <input type="text" name="name" className="form-control" placeholder="Your Name" onChange={handleChange} required />
                           </p>
                           <p>
-                            <input type='email' className='form-control' placeholder='your email' />
+                            <input type="email" name="email" className="form-control" placeholder="Your Email" onChange={handleChange} required />
                           </p>
                           <p>
-                            <input type='number' className='form-control' placeholder='your phone' />
+                            <input type="number" name="phone" className="form-control" placeholder="Your Phone" onChange={handleChange} required />
                           </p>
-                          <div className='text-center'>
-                            <p className='text-black fw-600 fw-bold lead'>Room Prefrence</p>
+                          <div className="text-center">
+                            <p className="text-black fw-600 fw-bold lead">Room Preference</p>
                             <p>
-                              <select className="p-2 border rounded form-control">
+                              <select name="room_preference" className="p-2 border rounded form-control" onChange={handleChange} required>
                                 <option value="">Available rooms</option>
                                 <option value="single-room-101">Single Room (₦20,000)</option>
-                                <option value="single-room-102">Single Room (₦25,000)</option>
-                                <option value="single-room-103">Single Room (₦25,000)</option>
                                 <option value="shared-sitting-301">A Room with Shared Sitting (₦35,000)</option>
-                                <option value="shared-sitting-302">A Room with Shared Sitting (₦40,000)</option>
-                                <option value="shared-sitting-303">A Room with Shared Sitting (₦40,000)</option>
-                                <option value="kitchen-room-e101">Single Room with Kitchen (₦40,000)</option>
-                                <option value="kitchen-room-e102">Single Room with Kitchen (₦30,000)</option>
-                                <option value="two-bed-201">Two Bed (₦70,000)</option>
-                                <option value="two-bed-202">Two Bed (₦60,000)</option>
-                                <option value="three-bed-300">Three Bed (₦100,000)</option>
-                                <option value="open-hall-oh">Open Hall (₦120,000)</option>
-                                <option value="open-hall-2r">Open Hall + Two ES Rooms (₦150,000)</option>
-                                <option value="open-hall-3b">Open Hall + 3 Bed (₦230,000)</option>
-                                <option value="open-hall-2r3b">Open Hall + Two ES Rooms + 3 Bed (₦300,000)</option>
                                 <option value="full-apartment-fa1">Full Apartment (₦400,000)</option>
-                                <option value="full-apartment-fa2">Full Apartment (₦500,000)</option>
+                                {/* Add other options */}
                               </select>
                             </p>
                             <p>
-                              <select className="p-2 border rounded form-control">
+                              <select name="num_people" className="p-2 border rounded form-control" onChange={handleChange} required>
                                 <option value="">Select Number of People</option>
                                 <option value="2">2 People</option>
-                                <option value="5">5 People</option>
-                                <option value="8">8 People</option>
                                 <option value="40">40 People Max</option>
-                                <option value="40-2-2-8">40, 2, 2, 8 People</option>
-                                <option value="40-8">40, 8 People</option>
-                                <option value="40-party">40 with Party</option>
-                                <option value="40-no-party">40 without Party</option>
                               </select>
-
                             </p>
                             <p>
-                              <select className="p-2 border rounded form-control">
+                              <select name="budget" className="p-2 border rounded form-control" onChange={handleChange} required>
                                 <option value="">Select Budget</option>
                                 <option value="20000">₦20,000</option>
-                                <option value="25000">₦25,000</option>
-                                <option value="30000">₦30,000</option>
-                                <option value="35000">₦35,000</option>
-                                <option value="40000">₦40,000</option>
-                                <option value="60000">₦60,000</option>
-                                <option value="70000">₦70,000</option>
-                                <option value="100000">₦100,000</option>
-                                <option value="120000">₦120,000</option>
-                                <option value="150000">₦150,000</option>
-                                <option value="230000">₦230,000</option>
-                                <option value="300000">₦300,000</option>
                                 <option value="400000">₦400,000</option>
-                                <option value="500000">₦500,000</option>
-                                <option value="other amounts">Even more ...</option>
                               </select>
                             </p>
                             <p>
-                              <textarea className='form-control' placeholder='additional info'></textarea>
+                              <textarea name="message" className="form-control" placeholder="Additional Info" onChange={handleChange}></textarea>
                             </p>
-                            <button className='btn btn-outline-success'>Get Enquiries</button>
+                            <button type="submit" className="btn btn-outline-success">Get Enquiries</button>
                           </div>
                         </form>
                       </div>
@@ -181,17 +215,17 @@ const Home = () => {
                 </div>
                 <div>
                   <Carousel
-                  draggable={true}
-                  responsive={responsive}
-                  infinite={true}
-                  autoPlay={true}
-                  autoPlaySpeed={3000}
-                  keyBoardControl={true}
-                  // customTransition="all .5"
-                  transitionDuration={2000}
-                  containerclassName="carousel-container "
-                  dotListclassName="custom-dot-list-style"
-                  itemclassName="carousel-item-padding-40-px"
+                    draggable={true}
+                    responsive={responsive}
+                    infinite={true}
+                    autoPlay={true}
+                    autoPlaySpeed={3000}
+                    keyBoardControl={true}
+                    // customTransition="all .5"
+                    transitionDuration={2000}
+                    containerclassName="carousel-container "
+                    dotListclassName="custom-dot-list-style"
+                    itemclassName="carousel-item-padding-40-px"
                   >
 
                     {roomGallery && roomGallery.length > 0 ? (
@@ -263,7 +297,15 @@ const Home = () => {
 
       {
         // just some catchy section
-
+        <section className='mb-5' style={{ background: "white" }}>
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12">
+              <ApartmentFeatures />
+              </div>
+            </div>
+          </div>
+        </section>
       }
 
       {
@@ -325,7 +367,9 @@ const Home = () => {
         <section>
           <div className="container">
             <div className="row">
-              <div className="col-md-4"></div>
+              <div className="col-md-4">
+                <img style={{ marginTop: "15em" }} className="" width="100%" src="https://static.vecteezy.com/system/resources/thumbnails/019/872/929/small_2x/3d-minimal-faq-sign-answers-to-frequently-asked-questions-message-icon-with-a-faq-text-3d-illustration-free-png.png" alt='faqs' />
+              </div>
               <div className="col-md-8">
                 <Faq />
               </div>
