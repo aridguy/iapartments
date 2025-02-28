@@ -1,5 +1,6 @@
 import React from 'react'
 import Navbar from '../../components/Navbar'
+import Footer from '../../components/Footer'
 
 const Apartment = () => {
   return (
@@ -11,7 +12,7 @@ const Apartment = () => {
             <div className='row'>
               <div className="col-md-12">
                 <div className='mt-5'>
-                  <h2 className='text-white fw-bold text-uppercase'>See all rooms available at I Apartment</h2>
+                  <h2 className='text-white fw-bold text-uppercase'>See all rooms available at <br />I Apartment Services</h2>
                   <button type='button' className='p-2 btn btn-outline-success text-white'>Explore Our Rooms!</button>
                 </div>
               </div>
@@ -19,6 +20,16 @@ const Apartment = () => {
           </div>
         </section>
       }
+      {
+        <section className='container-fluid'>
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12"></div>
+            </div>
+          </div>
+        </section>
+      }
+      <Footer />
     </div>
   )
 }

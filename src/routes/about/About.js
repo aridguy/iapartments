@@ -4,9 +4,11 @@ import AboutIco from "../../Asset/about/about-ico.svg"
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Footer from '../../components/Footer';
+import { useNavigate } from 'react-router-dom';
 
 
 const About = () => {
+  const Navigate = useNavigate("/")
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -36,7 +38,7 @@ const About = () => {
               <div className="col-md-12">
                 <div className='mt-5'>
                   <h2 className='text-white fw-bold'>About Us</h2>
-                  <button type='button' className='p-2 btn btn-outline-success text-white'>Explore Our Luxery Rooms</button>
+                  <button onClick={() => { Navigate("/apartment") }} type='button' className='p-2 btn btn-outline-success text-white'>Explore Our Luxery Rooms</button>
                 </div>
               </div>
             </div>
@@ -176,7 +178,7 @@ const About = () => {
                     padding: "1em",
                     borderRadius: "6px",
                     width: "97%",
-                   height: "16em"
+                    height: "16em"
                   }}>
                     <div>
                       <p className="lead">My friends and I had an amazing time at the apartment. It felt like home with the scenery and all.</p>
@@ -190,7 +192,7 @@ const About = () => {
                     padding: "1em",
                     borderRadius: "6px",
                     width: "97%",
-                   height: "16em"
+                    height: "16em"
                   }}><div>
                       <p className="lead">My friends and I had an amazing time at the apartment. It felt like home with the scenery and all.</p>
                       <small className="fw-bold">- John Doe</small> <br />
@@ -216,7 +218,7 @@ const About = () => {
                     padding: "1em",
                     borderRadius: "6px",
                     width: "97%",
-                   height: "16em"
+                    height: "16em"
 
                   }}>
                     <div>
@@ -253,8 +255,12 @@ const About = () => {
             <div className="col-md-3"></div>
             <div className="col-md-6">
               <div className='d-flex gap-3'>
-                <button className='find_rooms p-3 '> <i className="bi bi-house-gear"></i> Find a Room</button>
-                <button className='find_rooms p-3 '> <i className="bi bi-house-check-fill"></i> See Available Rooms</button>
+                <button
+                  className='find_rooms p-3 '
+                  onClick={() => { Navigate("/apartment") }}> <i className="bi bi-house-gear"></i> Find a Room</button>
+                <button
+                  onClick={() => { Navigate("/apartment") }}
+                  className='find_rooms p-3 '> <i className="bi bi-house-check-fill"></i> See Available Rooms</button>
               </div>
             </div>
             <div className="col-md-3"></div>

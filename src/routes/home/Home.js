@@ -6,6 +6,7 @@ import "react-multi-carousel/lib/styles.css";
 import { createClient } from 'contentful';
 import Footer from '../../components/Footer';
 import Room from "../../Asset/stocks/home.png"
+import Faq from '../../faq/Faq';
 
 const Home = () => {
   const [roomGallery, setRoomGallery] = useState([]);
@@ -180,39 +181,40 @@ const Home = () => {
                 </div>
                 <div>
                   <Carousel
-                    draggable={true}
-                    responsive={responsive}
-                    infinite={true}
-                    autoPlay={true}
-                    autoPlaySpeed={3000}
-                    keyBoardControl={true}
-                    transitionDuration={2000}
-                    containerClass="carousel-container"  // ✅ FIXED
-                    dotListClass="custom-dot-list-style"  // ✅ FIXED
-                    itemClass="carousel-item-padding-40-px"  // ✅ FIXED
+                  draggable={true}
+                  responsive={responsive}
+                  infinite={true}
+                  autoPlay={true}
+                  autoPlaySpeed={3000}
+                  keyBoardControl={true}
+                  // customTransition="all .5"
+                  transitionDuration={2000}
+                  containerclassName="carousel-container "
+                  dotListclassName="custom-dot-list-style"
+                  itemclassName="carousel-item-padding-40-px"
                   >
 
-                  {roomGallery && roomGallery.length > 0 ? (
-                    roomGallery.map((room) => (
-                      <div key={room.sys.id} className="grid-container">
-                        <div className='grid-item'>
-                          {room.fields.roomGallery?.fields?.file?.url ? (
-                            <img
-                              width="100%"
-                              loading="lazy"
-                              src={room.fields.roomGallery.fields.file.url}
-                              alt={room.fields.roomGallery.fields.title || 'Room image'}
-                            />
-                          ) : (
-                            <p className='text-white lead'>No images available</p>
-                          )}
+                    {roomGallery && roomGallery.length > 0 ? (
+                      roomGallery.map((room) => (
+                        <div key={room.sys.id} className="grid-container">
+                          <div className='grid-item'>
+                            {room.fields.roomGallery?.fields?.file?.url ? (
+                              <img
+                                width="100%"
+                                loading="lazy"
+                                src={room.fields.roomGallery.fields.file.url}
+                                alt={room.fields.roomGallery.fields.title || 'Room image'}
+                              />
+                            ) : (
+                              <p className='text-white lead'>No images available</p>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    ))
-                  ) : (
-                    <p className='text-white lead'>No images available</p> // Show a message if empty
-                  )}
-                  
+                      ))
+                    ) : (
+                      <p className='text-white lead'>No images available</p> // Show a message if empty
+                    )}
+
 
 
                   </Carousel>
@@ -314,6 +316,20 @@ const Home = () => {
               </div>
             </div>
 
+          </div>
+        </section>
+      }
+
+      {
+        // Faq section
+        <section>
+          <div className="container">
+            <div className="row">
+              <div className="col-md-4"></div>
+              <div className="col-md-8">
+                <Faq />
+              </div>
+            </div>
           </div>
         </section>
       }
