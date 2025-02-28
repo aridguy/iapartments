@@ -95,7 +95,7 @@ const Home = () => {
       }
     };
     getAllEntries();
-  }, []);
+  }, );
 
   const responsive = {
     superLargeDesktop: {
