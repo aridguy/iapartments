@@ -276,3 +276,23 @@ a {
 											  transparent 75%,
 											  transparent)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.nav-link:hover {
+  color: #00bcd4 !important; /* Change to your preferred hover color */
+  transform: scale(1.05); /* Slightly enlarge the link on hover */
+  transition: all 0.3s ease; /* Smooth transition */
+}
