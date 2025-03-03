@@ -1,12 +1,18 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import Logo from "../Asset/logo/logo.png"
 
 const Navbar = () => {
+    const Navigate = useNavigate("/")
     return (
         <div>
             <nav className="navbar navbar-expand-lg" style={{ background: "#151D31", color: "white", padding: "1em" }}>
                 <div className="container-fluid ">
-                    <p className="navbar-brand text-white">Logo</p>
+                    <p className="navbar-brand text-white">
+                        <img onClick={() => {
+                            Navigate("/")
+                        }} className='cursor' width="130px" src={Logo} alt="the logo" />
+                    </p>
                     <button className="text-white navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon text-white bg-white bg-light"></span>
                     </button>
@@ -16,7 +22,7 @@ const Navbar = () => {
                                 <Link to="/">Home</Link>
                             </li>
                             <li className="nav-item mx-3">
-                              <Link to="/about">About</Link>
+                                <Link to="/about">About</Link>
                             </li>
                             <li className="nav-item mx-3">
                                 <Link to="/apartment">Our Apartments</Link>

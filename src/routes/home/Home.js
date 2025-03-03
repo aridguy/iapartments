@@ -7,12 +7,27 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { createClient } from 'contentful';
 import Footer from '../../components/Footer';
-import Room from "../../Asset/stocks/home.png"
+// import Room from "../../Asset/stocks/home.png"
 import Faq from '../../faq/Faq';
 import Swal from 'sweetalert2';
 import ApartmentFeatures from '../../components/ApartmentFeatures';
+import { useLocation } from "react-router-dom";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import PropertyCards from '../../components/propertyCard';
 
 const Home = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1500, // Adjust animation speed
+      delay: 300, // Delay before animation starts
+      offset: 100, // Offset from top before animation triggers
+      once: false, // Repeat animation on every scroll
+    });
+    AOS.refresh(); // Refresh AOS animations on route change
+  }, [location]);
   const formRef = useRef(null);
   const [formData, setFormData] = useState({
     name: "",
@@ -95,7 +110,7 @@ const Home = () => {
       }
     };
     getAllEntries();
-  }, );
+  }, [clientsRoomImages]);
 
   const responsive = {
     superLargeDesktop: {
@@ -128,8 +143,8 @@ const Home = () => {
                   <sup>&copy; 2025I Apartment Services</sup>
                 </div>
                 <div>
-                  <h1 className=' hero-text' style={{ fontSize: "4em" }}>Rent, Relax, Repeat </h1>
-                  <h3 className=''>Your Ideal Apartment Awaits at IApartment Services!</h3>
+                  <h1 className=' hero-text' style={{ fontSize: "4em" }}>Rent, Relax, Rebook </h1>
+                  <h3 className=''>Your Ideal Apartment Awaits at iApartment Services!</h3>
                 </div>
                 <div className='mt-3'>
                   <sup>Are you ready to start the search for your dream home? Look no further than Bangoonan Real Estate.</sup>
@@ -240,7 +255,7 @@ const Home = () => {
                                 alt={room.fields.roomGallery.fields.title || 'Room image'}
                               />
                             ) : (
-                              <p className='text-white lead'>No images available</p>
+                              <p className='text-white lead'>Loading images . . .</p>
                             )}
                           </div>
                         </div>
@@ -269,21 +284,21 @@ const Home = () => {
               </div>
             </div>
             <div className='row '>
-              <div className='col-md-4' style={{ borderLeft: "1px solid green" }}>
+              <div data-aos="fade-right" data-aos-delay="500" className='col-md-4' style={{ borderLeft: "1px solid green" }}>
                 <i className="bi bi-patch-check-fill text-success" style={{ fontSize: "3em", }}></i>
                 <div className='mt-3'>
                   <h2 className='lead fw-bolder'>Getting to know you</h2>
                   <p className=''>You’ll answer a few simple questions so we understand what you are really looking for in your next home.</p>
                 </div>
               </div>
-              <div className='col-md-4' style={{ borderLeft: "1px solid green" }}>
+              <div data-aos="fade-right" data-aos-delay="400" className='col-md-4' style={{ borderLeft: "1px solid green" }}>
                 <i className="bi bi-patch-check-fill text-success" style={{ fontSize: "3em", }}></i>
                 <div className='mt-3'>
                   <h2 className='lead fw-bolder'>Guiding you to savings</h2>
                   <p className=''>Tallying up the value of promotional offers can be confusing. That’s why we show transparent pricing for any apartment with an offered concession.</p>
                 </div>
               </div>
-              <div className='col-md-4' style={{ borderLeft: "1px solid green" }}>
+              <div data-aos="fade-right" data-aos-delay="300" className='col-md-4' style={{ borderLeft: "1px solid green" }}>
                 <i className="bi bi-patch-check-fill text-success" style={{ fontSize: "3em", }}></i>
                 <div className='mt-3'>
                   <h2 className='lead fw-bolder'>Curating top matches</h2>
@@ -297,11 +312,11 @@ const Home = () => {
 
       {
         // just some catchy section
-        <section className='mb-5' style={{ background: "white" }}>
+        <section className='container-fluid ' style={{ background: "#052c65" }}>
           <div className="container">
             <div className="row">
               <div className="col-md-12">
-              <ApartmentFeatures />
+                <ApartmentFeatures />
               </div>
             </div>
           </div>
@@ -315,56 +330,14 @@ const Home = () => {
             <div className="row">
               <h2 className='text-success'>Feature Rooms!</h2>
             </div>
-            <div className='row'>
-              <div className='col-md-3'>
-                <div className="card" style={{ width: "18rem" }}>
-                  <img className="card-img-top" src={Room} alt="Card cap" />
-                  <div className="card-body">
-                    <h5 className="card-title">Card title</h5>
-                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="/" className="btn btn-primary">Go somewhere</a>
-                  </div>
-                </div>
-              </div>
-              <div className='col-md-3'>
-                <div className="card" style={{ width: "18rem" }}>
-                  <img className="card-img-top" src={Room} alt="Card cap" />
-                  <div className="card-body">
-                    <h5 className="card-title">Card title</h5>
-                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="/" className="btn btn-primary">Go somewhere</a>
-                  </div>
-                </div>
-              </div>
-              <div className='col-md-3'>
-                <div className="card" style={{ width: "18rem" }}>
-                  <img className="card-img-top" src={Room} alt="Card cap" />
-                  <div className="card-body">
-                    <h5 className="card-title">Card title</h5>
-                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="/" className="btn btn-primary">Go somewhere</a>
-                  </div>
-                </div>
-              </div>
-              <div className='col-md-3'>
-                <div className="card" style={{ width: "18rem" }}>
-                  <img className="card-img-top" src={Room} alt="Card cap" />
-                  <div className="card-body">
-                    <h5 className="card-title">Card title</h5>
-                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="/" className="btn btn-primary">Go somewhere</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+            <PropertyCards />
           </div>
         </section>
       }
 
       {
         // Faq section
-        <section>
+        <section data-aos="fade-left" data-aos-delay="300">
           <div className="container">
             <div className="row">
               <div className="col-md-4">

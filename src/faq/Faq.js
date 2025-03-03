@@ -86,7 +86,7 @@ const Faq = () => {
                         </h2>
                         <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                Check-in is from 3:00 PM, and check-out is by 11:00 AM.
+                            Check in is at your convenient time and Check out is 12 pm
                             </div>
                         </div>
                     </div>

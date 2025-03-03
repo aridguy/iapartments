@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
+import PropertyCards from '../../components/propertyCard'
 
 const Apartment = () => {
   return (
@@ -21,10 +22,17 @@ const Apartment = () => {
         </section>
       }
       {
-        <section className='container-fluid'>
+        <section className='container-fluid mt-5'>
           <div className="container">
             <div className="row">
-              <div className="col-md-12"></div>
+              <div>
+                <h1 className='lead text-success'>Our Apartments</h1>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-12">
+                <PropertyCards />
+              </div>
             </div>
           </div>
         </section>

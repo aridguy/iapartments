@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "iApartment",
+  "name": "iApartment - Your Apartment Services",
+  "description": "Manage your apartment seamlessly with iApartment. A modern PWA for apartment owners and tenants.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -21,5 +22,8 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "scope": "/",
+  "orientation": "portrait-primary",
+  "lang": "en-US"
 }
