@@ -75,7 +75,7 @@ const PropertyCards = () => {
                                             <i className="bi bi-droplet"></i> {numberOfBathroom} Baths
                                         </small>
                                         <small>
-                                            <i className="bi bi-arrows-expand"></i> {roomSizePerSqrFeet} sqft
+                                            <i className="bi bi-parking"></i> 
                                         </small>
                                         <small>
                                             <i className="bi bi-wifi"></i> Wifi
