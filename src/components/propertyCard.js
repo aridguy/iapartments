@@ -34,7 +34,7 @@ const PropertyCards = () => {
                         numberOfBathroom,
                         numberOfBeds,
                         pricePerNight,
-                        roomSizePerSqrFeet,
+                        // roomSizePerSqrFeet,
                         roomImage
                     } = apartment.fields;
 
