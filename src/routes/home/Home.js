@@ -154,7 +154,7 @@ const Home = () => {
                   <img width="30%" src={HomeIcone} alt='undraw-ico' />
                 </div>
                 <div className='mt-3 mb-5'>
-                  <button type='button' style={{ width: "60%" }} className='p-2 btn btn-outline-success text-white'>Explore Our Luxery Rooms</button>
+                  <button type='button' style={{ width: "60%" }} className='p-2 btn btn-outline-success text-white'>Explore Our Luxury Rooms</button>
                 </div>
               </div>
               <div className='col-md-1'></div>
