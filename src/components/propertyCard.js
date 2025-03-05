@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { createClient } from 'contentful';
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useLocation } from "react-router-dom";
 
 const PropertyCards = () => {
     const [allApartments, setAllApartments] = useState([]);
@@ -8,7 +11,7 @@ const PropertyCards = () => {
         space: "64wwqieqnr1q",
         accessToken: "ktJSB2fkJEfug_8zQwC9HjcH_d9Pm_-9Aac0sdtm5O0",
     });
-
+    const location = useLocation();
     useEffect(() => {
         const getAllEntries = async () => {
             try {
@@ -16,17 +19,26 @@ const PropertyCards = () => {
                     content_type: "apartment",
                 });
                 setAllApartments(entries.items);
-                console.log(entries.items);
+                // console.log(entries.items);
             } catch (error) {
                 console.error("Error fetching entries:", error);
             }
         };
         getAllEntries();
-    }, [clientsRoomImages]);
+    },[]);
+    useEffect(() => {
+        AOS.init({
+          duration: 1500, // Adjust animation speed
+          delay: 300, // Delay before animation starts
+          offset: 100, // Offset from top before animation triggers
+          once: false, // Repeat animation on every scroll
+        });
+        AOS.refresh(); // Refresh AOS animations on route change
+      }, [location]);
 
     return (
         <div className="container mt-4">
-            <div className="row">
+            <div className="row" data-aos="fade-left" data-aos-delay="300">
                 {allApartments.map((apartment) => {
                     const {
                         location,
@@ -63,7 +75,7 @@ const PropertyCards = () => {
                                 </div>
                                 <div className="card-body d-flex flex-column justify-content-between" style={{ minHeight: "180px" }}>
                                     <h5 className="fw-bold">
-                                        {pricePerNight ? `₦${pricePerNight}` : "Price not available"}
+                                        {pricePerNight ? `₦${pricePerNight}` : "Price not available"}|<sub>Per Night</sub>
                                     </h5>
                                     <h6 className="text-dark text-truncate" title={name}>{name}</h6>
                                     <p className="text-muted small mb-2 text-truncate" title={location}>{location}</p>
@@ -75,7 +87,7 @@ const PropertyCards = () => {
                                             <i className="bi bi-droplet"></i> {numberOfBathroom} Baths
                                         </small>
                                         <small>
-                                            <i className="bi bi-parking"></i> 
+                                            <i className="bi bi-display"></i> Display 
                                         </small>
                                         <small>
                                             <i className="bi bi-wifi"></i> Wifi

@@ -110,7 +110,7 @@ const Home = () => {
       }
     };
     getAllEntries();
-  }, [clientsRoomImages]);
+  });
 
   const responsive = {
     superLargeDesktop: {

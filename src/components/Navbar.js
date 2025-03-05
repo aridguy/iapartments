@@ -9,7 +9,7 @@ const Navbar = () => {
     return (
         <div>
             <nav
-                className="navbar navbar-expand-lg navbar-dark fixed-top"
+                className="navbar navbar-expand-lg navbar-dark "
                 style={{
                     background: 'linear-gradient(90deg, #151D31, #1E2A4A)',
                     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
